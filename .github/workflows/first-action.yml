@@ -1,4 +1,4 @@
-name: Deploy Website with GitHub Actions
+name: Website CI + Deploy
 
 on:
   push:
@@ -6,24 +6,16 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-test-deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Simple HTML check
-        run: |
-          if grep -q "<html>" index.html; then
-            echo "HTML file looks OK ✅"
-          else
-            echo "HTML file is broken ❌"
-            exit 1
-          fi
+      - name: Run tests
+        run: ./scripts/test.sh
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
+      - name: Deploy website
+        run: ./scripts/deploy.sh
+
