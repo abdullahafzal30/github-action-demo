@@ -1,11 +1,14 @@
 #!/bin/bash
+set -e
 
-echo "🧪 Website test start..."
+echo "🧪 Running React build test..."
 
-if grep -q "<html>" index.html; then
-  echo "✅ Test passed: HTML tag found"
+npm install
+npm run build
+
+if [ -d "dist" ]; then
+  echo "✅ Build successful: dist folder found"
 else
-  echo "❌ Test failed: <html> tag missing"
+  echo "❌ Build failed"
   exit 1
 fi
-

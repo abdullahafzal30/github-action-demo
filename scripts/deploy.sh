@@ -1,5 +1,11 @@
 #!/bin/bash
+set -e
 
-echo "🚀 Deploying website..."
-echo "✅ Deployment successful"
+echo "Building app..."
+npm run build
 
+echo "Deploying..."
+docker build -t react-cicd-app .
+docker run -d -p 8080:80 react-cicd-app
+
+echo "Deployment successful 🚀"
