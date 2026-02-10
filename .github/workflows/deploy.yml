@@ -1,0 +1,26 @@
+name: Auto Deploy React Docker App
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t react-cicd-app .
+
+      - name: Stop old container
+        run: |
+          docker stop react-prod || true
+          docker rm react-prod || true
+
+      - name: Run new container
+        run: |
+          docker run -d -p 8080:80 --name react-prod react-cicd-app
+
