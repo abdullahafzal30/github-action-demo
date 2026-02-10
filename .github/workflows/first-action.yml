@@ -1,0 +1,21 @@
+name: Website CI + Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run tests
+        run: ./scripts/test.sh
+
+      - name: Deploy website
+        run: ./scripts/deploy.sh
+
